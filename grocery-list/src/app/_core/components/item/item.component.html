@@ -1,2 +1,6 @@
-
-<input  class="input" type="text" placeholder="Text input" [(ngModel)]="item.ItemName">
+<div class="item-input">
+    <label class="checkbox">
+        <input tabindex = "-1" type="checkbox">
+    </label>
+    <input  class="input" type="text" placeholder="Add Item " [(ngModel)]="item.ItemName" (focusout)="focusOut()">
+</div>

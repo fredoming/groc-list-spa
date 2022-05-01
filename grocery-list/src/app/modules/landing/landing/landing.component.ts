@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { GroceryList } from 'src/app/models/enities/entities';
+import { ListStoreService } from 'src/app/services/list-store.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'grocl-landing',
@@ -7,8 +10,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  Lists!: GroceryList [];
+  constructor(private listStore: ListStoreService) {
+    console.log(environment.odataUri)
+   }
 
   ngOnInit(): void {
+    this.listStore.all().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.Lists = res;
+      }
+    })
+  }
+
+  focusOut(){
+    console.log('should save now')
   }
 }

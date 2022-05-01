@@ -1,0 +1,28 @@
+<div class="card">
+    <header class="card-header">
+        <div class="title-input">
+            <input class="input title-h" type="text" placeholder="Start a list!" (focusin)="listHasStarted = true" [(ngModel)]="GroceryListName">            
+        </div>
+    </header>
+    <div *ngIf="listHasStarted" class="card-content">
+        <div class="content">
+            <div *ngFor="let item of items">
+                <grocls-item [item]="item"></grocls-item>
+            </div>
+                         
+        </div>
+        <div class="action-btns">
+            <button id="add-item-btn" class="button is-primary is-light" (click)="addNewItem()">
+                <span class="icon">
+                    <fa-icon [icon]="faPlus"></fa-icon>           
+                 </span> 
+            </button>
+            <button id="save-items-btn" class="button is-info is-light" (click)="saveList()">
+                <span class="icon">
+                    <fa-icon [icon]="faFloppyDisk"></fa-icon>           
+                 </span>                 
+            </button>
+        </div>
+
+    </div>
+</div>

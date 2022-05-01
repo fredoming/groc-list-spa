@@ -1,5 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { GroceryItem } from 'src/app/models/enities/entities';
+// import { Component, Input, OnInit } from '@angular/core';
+// import { GroceryItem, GroceryList } from 'src/app/models/enities/entities';
+// import { ListStoreService } from 'src/app/services/list-store.service';
+
+// import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+// import {IconDefinition} from '@fortawesome/fontawesome-common-types'
+// @Component({
+//   selector: 'grocls-list',
+//   templateUrl: './list.component.html',
+//   styleUrls: ['./list.component.scss']
+// })
+import { Component, Input, OnInit } from '@angular/core';
+import { GroceryList } from 'src/app/models/enities/entities';
 
 @Component({
   selector: 'grocls-list',
@@ -7,17 +19,10 @@ import { GroceryItem } from 'src/app/models/enities/entities';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  
-  items?: GroceryItem [] = [ { ItemName: "item1", DoneTF: false, GroceryItemId: "", CreatedDT: new Date(), CreatedById: null, CreatedByName: "", LastModifiedById:"", LastModifiedByName:"", LastModifiedDT:new Date() },
-  { ItemName: "item1", DoneTF: false, GroceryItemId: "", CreatedDT: new Date(), CreatedById: null, CreatedByName: "", LastModifiedById:"", LastModifiedByName:"", LastModifiedDT:new Date() }]; 
-
+  @Input('list') list!: GroceryList;
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  addNewItem(): void {
-    console.log(this.items);
-    this.items?.push({ItemName: "item1", DoneTF: false, GroceryItemId: "", CreatedDT: new Date(), CreatedById: null, CreatedByName: "", LastModifiedById:"", LastModifiedByName:"", LastModifiedDT:new Date() });
-  }
 }

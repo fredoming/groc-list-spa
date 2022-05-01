@@ -1,11 +1,22 @@
 .landing-page {
     height: 100vh;
     width: 100vw;
-
 }
 
 .starter {
     margin: 32px auto 16px auto;
     position: relative; 
     width: 600px;
+}
+
+.loaded-list {
+    width: 230px;
+    max-height: 400px;
+    margin: 5px;
+}
+
+.list-flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
 }

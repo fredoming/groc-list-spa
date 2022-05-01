@@ -1,5 +1,12 @@
 <div class="landing-page">
-    <div class="starter">
-        <grocls-list></grocls-list>
+    <div class="starter" (mouseleave)="focusOut()">
+        <grocls-list-starter></grocls-list-starter>
+    </div>
+    <div class="list-flex">
+        <div *ngFor="let list of Lists">
+            <div class="loaded-list">
+                <grocls-list [list]="list"></grocls-list>
+            </div>
+        </div>
     </div>
 </div>

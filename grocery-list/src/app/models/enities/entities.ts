@@ -14,25 +14,26 @@ export interface User {
 }
 
 export interface GroceryList {
-        GroceryListId: string;
+        GroceryListId?: string | null;
         Name: string | null;
-        UserId: string;
-        CreatedDT: Date;
-        CreatedById: string | null;
-        CreatedByName: string | null;
-        LastModifiedDT: Date;
-        LastModifiedById: string | null;
-        LastModifiedByName: string | null;
+        UserId?: string;
+        CreatedDT?: Date;
+        CreatedById?: string | null;
+        CreatedByName?: string | null;
+        LastModifiedDT?: Date;
+        LastModifiedById?: string | null;
+        LastModifiedByName?: string | null;
+        GroceryItems?: GroceryItem [];
 }
 
 export interface GroceryItem {
-        GroceryItemId: string;
+        GroceryItemId?: string;
         ItemName: string | null;
-        DoneTF: boolean;
-        CreatedDT: Date;
-        CreatedById: string | null;
-        CreatedByName: string | null;
-        LastModifiedDT: Date;
-        LastModifiedById: string | null;
-        LastModifiedByName: string | null;
+        DoneTF?: boolean;
+        CreatedDT?: Date;
+        CreatedById?: string | null;
+        CreatedByName?: string | null;
+        LastModifiedDT?: Date;
+        LastModifiedById?: string | null;
+        LastModifiedByName?: string | null;
 }

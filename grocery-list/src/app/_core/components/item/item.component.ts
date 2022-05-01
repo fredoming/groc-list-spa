@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 import { GroceryItem } from 'src/app/models/enities/entities';
 
 @Component({
@@ -9,11 +9,16 @@ import { GroceryItem } from 'src/app/models/enities/entities';
 export class ItemComponent implements OnInit {
 
   @Input('item') item!: GroceryItem 
+  
 
   constructor() { }
 
   ngOnInit(): void {
 
+  }
+
+  focusOut() {
+    console.log('item should save')
   }
 
 }
