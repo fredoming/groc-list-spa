@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LandingComponent } from './landing.component';
 import { RouterModule, Routes } from '@angular/router';
 import { CoreModule } from 'src/app/_core/core.module';
-
 const routes: Routes = [
   {
     path: '',

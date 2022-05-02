@@ -28,6 +28,7 @@ export interface GroceryList {
 
 export interface GroceryItem {
         GroceryItemId?: string;
+        GroceryListId?: string;
         ItemName: string | null;
         DoneTF?: boolean;
         CreatedDT?: Date;

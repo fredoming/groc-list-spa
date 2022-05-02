@@ -1,10 +1,11 @@
-import { Component, HostListener, Input, OnInit } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { GroceryItem, GroceryList } from 'src/app/models/enities/entities';
 import { ListStoreService } from 'src/app/services/list-store.service';
 
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import {IconDefinition} from '@fortawesome/fontawesome-common-types'
+import { ListStarterService } from 'src/app/services/list-starter.service';
 @Component({
   selector: 'grocls-list-starter',
   templateUrl: './list-starter.component.html',
@@ -15,55 +16,58 @@ export class ListStarterComponent implements OnInit {
   faPlus: IconDefinition = faPlus;
   faFloppyDisk: IconDefinition = faFloppyDisk;
 
-  @Input('grocerylist') grocerylist!: GroceryList;
-  GroceryListName!: string; 
-
-  //TODO: move this to a service
+  GroceryListName!: string;
+  items?: GroceryItem [] = [];
   listHasStarted: boolean = false;
 
-  items?: GroceryItem [] = [];
-  
-  get isNew(): boolean {
-    if(this.grocerylist)
-      return false
-    return true
-  }
+  @ViewChild('trigger') trigger: any;
 
-  get newItem(): GroceryItem {
-    return { ItemName: ''}
-  }
-
-  get newList(): GroceryList {
+  constructor(
+    private listStore: ListStoreService,
+    private lsStarter: ListStarterService) {
+      this.listenForList()
+   }
+   get newList(): GroceryList {
     return {
       Name: this.GroceryListName,
       GroceryItems: this.items,
-      UserId: this.userId
+      UserId: this.lsStarter.userId
     }
   }
-  get userId(): string {
-    return '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-  }
-  constructor(private listStore: ListStoreService) {
-    console.log(this.grocerylist)
-   }
-
   ngOnInit(): void {
-    if(this.isNew)
-      this.items?.push(this.newItem)
-  }
-
-  addNewItem(): void {
-    this.items?.push(this.newItem)
+    if(this.lsStarter.isNew)
+      this.items?.push(this.lsStarter.newItem)
   }
 
   saveList(): void {
-    this.listStore.create(this.newList).subscribe({
-      next: () => {
-        this.listHasStarted = false
-        this.GroceryListName = ''
-        this.items = []
-      }
-    });
+    if(this.lsStarter.isNew){
+      this.lsStarter.saveNewList(this.newList).subscribe({
+        next: (success: boolean) => {
+          if(success) console.log('Saved new List!')
+        }
+      })
+      // this.listStore.create(this.lsStarter.newList).subscribe({
+      //   next: () => {
+      //     this.lsStarter.listHasStarted = false
+      //     this.GroceryListName = ''
+      //     this.items = []
+      //   },
+      //   error: () => {
+      //     this.lsStarter.listHasStarted = false
+      //   }
+      //   });
+    }
+    else {
+      this.lsStarter.updateList();
+    }
+
+
+  }
+
+  hookUpToService() {
+    this.GroceryListName = this.lsStarter.name
+    this.items = this.lsStarter.items
+    this.listHasStarted = this.lsStarter.listHasStarted
   }
 
   focusOut() {
@@ -79,6 +83,19 @@ export class ListStarterComponent implements OnInit {
       LastModifiedByName: ''
     }
     this.listStore.create(newList)
+  }
+
+  listenForList(){
+    this.lsStarter.selectedListt$.subscribe({
+      next: (list: GroceryList | null) => {        
+        this.hookUpToService()
+        console.log(this, list)
+      }
+    })
+  }
+
+  addNewItem(): void {
+    this.items?.push(this.lsStarter.newItem)
   }
 
   @HostListener('document:keydown.enter', ['$event']) onEnterdownHandler(event: KeyboardEvent) {

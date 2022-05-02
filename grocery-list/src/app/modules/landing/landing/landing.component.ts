@@ -16,9 +16,10 @@ export class LandingComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    this.listStore.entitySet.newParam().expand("GroceryItems")
+    this.listStore.expandables = 'GroceryItems'
     this.listStore.all().subscribe({
       next: (res) => {
-        console.log(res);
         this.Lists = res;
       }
     })

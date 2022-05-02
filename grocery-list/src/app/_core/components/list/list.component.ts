@@ -10,8 +10,10 @@
 //   templateUrl: './list.component.html',
 //   styleUrls: ['./list.component.scss']
 // })
+import { ThisReceiver } from '@angular/compiler';
 import { Component, Input, OnInit } from '@angular/core';
 import { GroceryList } from 'src/app/models/enities/entities';
+import { ListStarterService } from 'src/app/services/list-starter.service';
 
 @Component({
   selector: 'grocls-list',
@@ -20,9 +22,13 @@ import { GroceryList } from 'src/app/models/enities/entities';
 })
 export class ListComponent implements OnInit {
   @Input('list') list!: GroceryList;
-  constructor() { }
+  constructor(private lsStarter: ListStarterService) { }
 
   ngOnInit(): void {
   }
 
+  selectEvent() {
+    this.lsStarter.listHasStarted = true
+    this.lsStarter.selectedSubject.next(this.list)
+  }
 }

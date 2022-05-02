@@ -7,6 +7,7 @@ import { FocusOutDirective } from './directives/focus-out.directive';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ListStarterComponent } from './components/list-starter/list-starter.component';
 
+import { OverlayModule } from '@angular/cdk/overlay'
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ListStarterComponent } from './components/list-starter/list-starter.com
   imports: [
     CommonModule,
     FormsModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    OverlayModule
   ],
   exports: [
     ItemComponent,

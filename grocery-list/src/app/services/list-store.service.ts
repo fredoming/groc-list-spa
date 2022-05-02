@@ -11,12 +11,10 @@ export class ListStoreService extends BaseStoreService<GroceryList> {
   constructor() { 
     super();
     this.entity = 'GroceryLists' 
-    console.log(this.client)
     this.init();
   }
 
   getAll(): void {
-    this.entitySet.newParam().expand("GroceryItems")
   }
 
 }

@@ -4,12 +4,12 @@
             <input class="input title-h" type="text" placeholder="Start a list!" (focusin)="listHasStarted = true" [(ngModel)]="GroceryListName">            
         </div>
     </header>
+    
     <div *ngIf="listHasStarted" class="card-content">
         <div class="content">
             <div *ngFor="let item of items">
                 <grocls-item [item]="item"></grocls-item>
-            </div>
-                         
+            </div>                         
         </div>
         <div class="action-btns">
             <button id="add-item-btn" class="button is-primary is-light" (click)="addNewItem()">
