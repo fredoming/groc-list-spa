@@ -60,24 +60,21 @@ export class ListStarterService {
   saveNewList(newList: GroceryList): Observable<GroceryList> {
     return this.listStore.create(newList).pipe(tap({
       next: (res: GroceryList) => {
-        this.listHasStarted = false
-        this.selectedSubject.next(null)
+        this.reset()
       }
     }))
-
-    // .subscribe({
-    //   next: (res: GroceryList) => {
-    //     this.listHasStarted = false
-    //     this.selectedSubject.next(null)
-    //     return of(true)
-    //   },
-    //   error: () => {
-    //     return of(false)
-    //   }
-    // })
   }
 
-  updateList() {
-    console.log(this.grocerylist)
+  updateList(list: GroceryList): Observable<void> {
+    return this.listStore.update(this.id, list).pipe(tap({
+      next: () => {
+        this.reset()
+      }
+    }))
+  }
+
+  reset(): void {
+    this.listHasStarted = false
+    this.selectedSubject.next(null)
   }
 }
