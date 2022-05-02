@@ -42,20 +42,14 @@ export class ListStarterComponent implements OnInit {
   saveList(): void {
     if(this.lsStarter.isNew){
       this.lsStarter.saveNewList(this.newList).subscribe({
-        next: (success: boolean) => {
+        next: (success) => {
           if(success) console.log('Saved new List!')
+          this.items = []
+          this.GroceryListName = ''
+          this.listHasStarted = false
+          this.listStore.loadall()
         }
       })
-      // this.listStore.create(this.lsStarter.newList).subscribe({
-      //   next: () => {
-      //     this.lsStarter.listHasStarted = false
-      //     this.GroceryListName = ''
-      //     this.items = []
-      //   },
-      //   error: () => {
-      //     this.lsStarter.listHasStarted = false
-      //   }
-      //   });
     }
     else {
       this.lsStarter.updateList();

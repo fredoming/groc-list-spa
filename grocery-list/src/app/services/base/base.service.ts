@@ -19,16 +19,21 @@ export abstract class BaseStoreService<T> {
   expandables!: string;
 
 
-   currentSubject = new BehaviorSubject<T | null>(null);
-    get current$(): Observable<T | null> {
-        return this.currentSubject.asObservable().pipe(filter(c => !!c))
-    }
+  currentSubject = new BehaviorSubject<T | null>(null);
+  get current$(): Observable<T | null> {
+    return this.currentSubject.asObservable().pipe(filter(c => !!c))
+  }
 
-  constructor() { 
+  allSubject = new BehaviorSubject<T [] | null>(null);
+  get all$(): Observable<T [] | null> {
+    return this.allSubject.asObservable().pipe(filter(c => !!c))
+  }
+
+  constructor() {
   }
 
   init() {
-    this.client = OData.New4({ metadataUri: this.url})
+    this.client = OData.New4({ metadataUri: this.url })
     this.entitySet = this.client.getEntitySet<T>(this.entity);
   }
 
@@ -36,8 +41,16 @@ export abstract class BaseStoreService<T> {
     return from(this.entitySet.retrieve(this.getRaw(key)))
   }
 
-  all(): Observable<T []> {    
-    if(this.expandables){
+  loadall(): void {
+    this.all().subscribe({
+      next: (res: T []) => {
+        this.allSubject.next(res)
+      }
+    })
+  }
+
+  all(): Observable<T[]> {
+    if (this.expandables) {
       const filter = this.client.newParam().expand(this.expandables)
       return from(this.entitySet.query(filter))
     }

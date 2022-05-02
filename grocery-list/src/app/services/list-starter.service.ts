@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, Observable, of } from 'rxjs';
+import { BehaviorSubject, filter, Observable, of, tap } from 'rxjs';
 import { GroceryItem, GroceryList } from '../models/enities/entities';
 import { ListStoreService } from './list-store.service';
 
@@ -8,48 +8,48 @@ import { ListStoreService } from './list-store.service';
 })
 export class ListStarterService {
 
-  GroceryListName!: string; 
+  GroceryListName!: string;
   listHasStarted: boolean = false;
-  
+
   constructor(private listStore: ListStoreService) { }
-  
-  get grocerylist(): GroceryList | null{
+
+  get grocerylist(): GroceryList | null {
     return this.selectedSubject.getValue()
   }
 
   get name(): string {
-    if(this.grocerylist)
-      if(this.grocerylist.Name)
+    if (this.grocerylist)
+      if (this.grocerylist.Name)
         return this.grocerylist.Name
     return ''
   }
 
   get id(): string {
     const id = this.grocerylist?.GroceryListId
-    if(id)
+    if (id)
       return id
     return ''
   }
 
-  get items(): GroceryItem [] {
-    if(this.grocerylist?.GroceryItems)
+  get items(): GroceryItem[] {
+    if (this.grocerylist?.GroceryItems)
       return this.grocerylist?.GroceryItems
     return []
   }
 
   selectedSubject = new BehaviorSubject<GroceryList | null>(null);
   get selectedListt$(): Observable<GroceryList | null> {
-      return this.selectedSubject.asObservable().pipe(filter(c => !!c))
+    return this.selectedSubject.asObservable().pipe(filter(c => !!c))
   }
 
   get isNew(): boolean {
-    if(this.grocerylist)
+    if (this.grocerylist)
       return false
     return true
   }
 
   get newItem(): GroceryItem {
-    return { ItemName: ''}
+    return { ItemName: '' }
   }
 
 
@@ -57,21 +57,27 @@ export class ListStarterService {
     return '3fa85f64-5717-4562-b3fc-2c963f66afa6'
   }
 
-  saveNewList(newList: GroceryList):Observable<boolean> {
-    this.listStore.create(newList).subscribe({
-      next: () => {
+  saveNewList(newList: GroceryList): Observable<GroceryList> {
+    return this.listStore.create(newList).pipe(tap({
+      next: (res: GroceryList) => {
         this.listHasStarted = false
         this.selectedSubject.next(null)
-        return of(true)
-      },
-      error: () => {
-        return of(false)
       }
-    })
-    return of(false)
+    }))
+
+    // .subscribe({
+    //   next: (res: GroceryList) => {
+    //     this.listHasStarted = false
+    //     this.selectedSubject.next(null)
+    //     return of(true)
+    //   },
+    //   error: () => {
+    //     return of(false)
+    //   }
+    // })
   }
 
-  updateList(){
+  updateList() {
     console.log(this.grocerylist)
   }
 }

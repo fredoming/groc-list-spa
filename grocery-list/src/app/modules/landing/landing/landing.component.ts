@@ -18,14 +18,19 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     this.listStore.entitySet.newParam().expand("GroceryItems")
     this.listStore.expandables = 'GroceryItems'
-    this.listStore.all().subscribe({
-      next: (res) => {
-        this.Lists = res;
+    this.listStore.loadall()
+    this.listenForLists()
+  }
+  
+  listenForLists(): void {
+    this.listStore.all$.subscribe({
+      next: (lists: GroceryList [] | null) => {
+        if(lists)
+          this.Lists = lists;
       }
     })
   }
-
-  focusOut(){
+  focusOut():void {
     console.log('should save now')
   }
 }
